@@ -1,0 +1,19 @@
+CREATE DATABASE IF NOT EXISTS vault_breaker CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE vault_breaker;
+CREATE TABLE IF NOT EXISTS agents (
+ id INT AUTO_INCREMENT PRIMARY KEY,
+ codename VARCHAR(50) NOT NULL UNIQUE,
+ password VARCHAR(255) NOT NULL,
+ clearance VARCHAR(20) NOT NULL DEFAULT 'Rookie',
+ xp INT NOT NULL DEFAULT 0,
+ created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+CREATE TABLE IF NOT EXISTS progress (
+ id INT AUTO_INCREMENT PRIMARY KEY,
+ agent_id INT NOT NULL,
+ level_number TINYINT NOT NULL,
+ completed_locks TINYINT NOT NULL DEFAULT 0,
+ completed TINYINT(1) NOT NULL DEFAULT 0,
+ UNIQUE KEY unique_agent_level (agent_id,level_number),
+ CONSTRAINT fk_progress_agent FOREIGN KEY (agent_id) REFERENCES agents(id) ON DELETE CASCADE
+);

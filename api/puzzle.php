@@ -1,4 +1,5 @@
 <?php
+// Banana API Integration - Fetches live mathematical puzzles
 require_once __DIR__.'/../includes/auth.php';require_agent();header('Content-Type: application/json; charset=utf-8');
 function get_banana(string $url): array {
  if(function_exists('curl_init')){$ch=curl_init($url);curl_setopt_array($ch,[CURLOPT_RETURNTRANSFER=>true,CURLOPT_TIMEOUT=>20,CURLOPT_CONNECTTIMEOUT=>10,CURLOPT_FOLLOWLOCATION=>true,CURLOPT_SSL_VERIFYPEER=>true]);$body=curl_exec($ch);$code=(int)curl_getinfo($ch,CURLINFO_HTTP_CODE);$err=curl_error($ch);curl_close($ch);if($body===false||$code!==200)return [false,$err?:'Banana API HTTP '.$code];return [$body,null];}
